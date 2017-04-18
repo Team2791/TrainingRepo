@@ -4,4 +4,4 @@ public class HelloGit {
 		System.out.println("Hello Git");
 	}
 }
-//AYYY ITS YA BOI
+//No one likes people with Macs
