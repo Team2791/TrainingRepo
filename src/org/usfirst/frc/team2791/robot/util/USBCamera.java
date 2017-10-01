@@ -15,6 +15,8 @@ public class USBCamera extends UsbCamera{
 	 * Default resolution of the camera incase it can't handle a requested res
 	 */
 	private Resolution defaultRes;
+	
+	private int fps = 10;
 
 	private String camName = "";
 
@@ -31,7 +33,6 @@ public class USBCamera extends UsbCamera{
 		camName = name;
 		
 		setDefaultResolution(Resolution.k480x360, 0.25);
-		
 		try {
 			CameraServer.getInstance().startAutomaticCapture();
 			this.setPixelFormat(PixelFormat.kMJPEG);
@@ -58,6 +59,21 @@ public class USBCamera extends UsbCamera{
 	}
 
 	/**
+	 * sets FPS to either desired parameter, or default fps (10)
+	 * @return true if desired FPS worked, false otherwise
+	 */
+	public boolean setFPS(int fps) {
+		this.fps = fps;
+		if (!super.setFPS(fps)) {
+			System.err.println("****Desired FPS FAILED for" + camName + "****");
+			System.err.println("    Attempting Default FPS (10)");
+			super.setFPS(10);
+			return false;
+		}
+		return true;
+	}
+
+	/**
 	 * 
 	 * @param res resolution to set camera capture to
 	 * @throws Exception if resolution cannot be set
@@ -77,7 +93,7 @@ public class USBCamera extends UsbCamera{
 				System.out.println("      Switching to Default Res");
 			}
 		}catch(Exception e){
-			throw new Exception(camName + "Resolution cannot be set");
+			throw new Exception(camName + " Resolution cannot be set");
 		}
 	}
 

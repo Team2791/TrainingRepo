@@ -18,6 +18,7 @@ Code that you guys wrote in class, with comments.
 <ul>
   <li>A new, simple Command for you to de-code</li>
   <li>Button mapping for non-default Commands</li>
+  <li>Custom USBCamera Class</li>
  </ul>
  
  ## What's NOT included that we did in class

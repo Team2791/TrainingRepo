@@ -41,7 +41,7 @@ public class Robot extends IterativeRobot {
 
 		try {
 			USBCamera driverCam1 = new USBCamera("Driver Cam1", 0);
-			driverCam1.setResolution(Resolution.k640x360);
+			driverCam1.setResolution(Resolution.k640x360); // make sure that you test this resolution to see if it will actually set it properly
 
 			USBCamera driverCam2 = new USBCamera("Driver Cam2", 1);
 			driverCam2.setResolution(Resolution.k640x360, 0.5);
