@@ -28,9 +28,9 @@ public class Robot extends IterativeRobot {
 	CommandChooser<Command> autonChooser;
 
 	boolean lookForAction = true;
-	
+
 	TeamColor teamColor = TeamColor.BLUE;
-	
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -38,8 +38,17 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
-	
-		
+
+		try {
+			USBCamera driverCam1 = new USBCamera("Driver Cam1", 0);
+			driverCam1.setResolution(Resolution.k640x360);
+
+			USBCamera driverCam2 = new USBCamera("Driver Cam2", 1);
+			driverCam2.setResolution(Resolution.k640x360, 0.5);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+
 		autonChooser = new CommandChooser<Command>("Auton Command Chooser");
 		autonChooser.addCommand(new SpinInACircleFor10Seconds());
 		autonChooser.addCommand(new ExampleShakerCommandGroup());
@@ -59,7 +68,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		
+
 		/**Logic for Auto Selection w/Gamepad Buttons**/
 		if(!(OI.operator.getButtonLB() || OI.operator.getButtonRB()))
 			lookForAction = true;
@@ -76,24 +85,24 @@ public class Robot extends IterativeRobot {
 		if(OI.operator.getButtonX()){
 			teamColor = TeamColor.BLUE;
 		}
-		
+
 		if(OI.operator.getButtonB()){
 			teamColor = TeamColor.RED;
 		}
-		
+
 		run();
-		
+
 	}
 
 	@Override
 	public void autonomousInit() {		
-		
+
 		autonomousCommand = autonChooser.getSelected(); 
 
 		if (autonomousCommand != null)
 			System.out.println("***Starting "+teamColor+" "+autonomousCommand.getName()+" AutoMode***");
-			autonomousCommand.start();
-			
+		autonomousCommand.start();
+
 		run();
 	}
 
@@ -127,12 +136,12 @@ public class Robot extends IterativeRobot {
 		LiveWindow.run();
 		run();
 	}
-	
-	
+
+
 	public void debug() {
 		autonChooser.debug();
 	}
-	
+
 	/**
 	 * This is an easy way to set variables that change depending on what team you are on.
 	 * This also provides a more intuative variable for checking what color you on, compared to a boolean for example
